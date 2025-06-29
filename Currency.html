@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Валюта</title>
+    <link rel="stylesheet" href="style3.css">
+    <link rel="stylesheet" href="Theme.css">
+</head>
+<body>
+    <header>
+        <div class="header-content">
+            <nav>
+                <ul>
+                    <li><a href="index.html">Главная</a></li>
+                    <li><a href="Calculator.html">Калькулятор</a></li>
+                    <li><a href="Currency.html">Конвертер Валют</a></li>
+                    <li><a href="Value.html">Конвертер Величин</a></li>
+                    <li><button class="theme-toggle-btn" id="toggleThemeBtn">Сменить тему</button></li>
+                </ul>
+            </nav>
+        </div>
+    </header>
+    <div class="converter">
+<h2>Конвертор валют</h2>
+
+<label for="amount">Сумма:</label>
+<input type="number" id="amount" placeholder="Введите сумму" />
+
+<label for="fromCurrency">Из:</label>
+<select id="fromCurrency">
+<option value="USD">USD - Доллар США</option>
+<option value="EUR">EUR - Евро</option>
+<option value="RUB">RUB - Российский рубль</option>
+</select>
+
+<label for="toCurrency">В:</label>
+<select id="toCurrency">
+<option value="USD">USD - Доллар США</option>
+<option value="EUR">EUR - Евро</option>
+<option value="RUB">RUB - Российский рубль</option>
+</select>
+
+<button onclick="convert()">Конвертировать</button>
+
+<div id="result"></div>
+</div>
+<script>
+    const body = document.body; //кнопка смены темы
+const toggleBtn = document.getElementById('toggleThemeBtn');
+
+toggleBtn.addEventListener('click', () => {
+ if (body.classList.contains('light-theme')) {
+   body.classList.remove('light-theme');
+   body.classList.add('dark-theme');
+   toggleBtn.textContent = 'Светлая тема';
+ } else {
+   body.classList.remove('dark-theme');
+   body.classList.add('light-theme');
+   toggleBtn.textContent = 'Тёмная тема';
+ }
+});
+//Сам конвертер
+const apiKey = '8095f6187cf60e90742dbe93';
+
+async function convert() {
+ const amount = parseFloat(document.getElementById('amount').value);
+ const from = document.getElementById('fromCurrency').value;
+ const to = document.getElementById('toCurrency').value;
+
+ if (isNaN(amount) || amount <=0) {
+   alert('Пожалуйста, введите корректную сумму');
+   return
+ }
+
+ // Получение курса обмена
+ try {
+   const response = await fetch(`https://v6.exchangerate-api.com/v6/${apiKey}/latest/${from}`);
+   if (!response.ok) throw new Error('Ошибка при получении курса');
+   const data = await response.json();
+
+   const rate = data.conversion_rates[to];
+   if (!rate) {
+     alert('Курс для выбранной валюты недоступен');
+     return
+   }
+
+   const resultAmount = (amount * rate).toFixed(2);
+   document.getElementById('result').textContent = `${amount} ${from} = ${resultAmount} ${to}`;
+ } catch (error) {
+   alert('Ошибка при получении курса обмена. Проверьте подключение или API-ключ.');
+ }
+}
+</script>
+</body>
+</html>

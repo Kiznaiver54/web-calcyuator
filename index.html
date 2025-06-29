@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Веб Калькулятор</title>
+    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="Theme.css">
+</head>
+<body>
+    <header>
+        <div class="header-content">
+            <nav>
+                <ul>
+                    <li><a href="index.html">Главная</a></li>
+                    <li><a href="Calculator.html">Калькулятор</a></li>
+                    <li><a href="Currency.html">Конвертер Валют</a></li>
+                    <li><a href="Value.html">Конвертер Величин</a></li>
+                    <li><button class="theme-toggle-btn" id="toggleThemeBtn">Сменить тему</button></li>
+                </ul>
+            </nav>
+        </div>
+    </header>
+    <h1 class="h1">Веб Калькулятор</h1>
+    <div class="picture">
+<img src="img/taxe-dubai-societe-immobilier-prix-neuf-2023.jpg" alt="">
+    </div>
+    <script>
+const body = document.body;
+const toggleBtn = document.getElementById('toggleThemeBtn');
+
+toggleBtn.addEventListener('click', () => {
+ if (body.classList.contains('light-theme')) {
+   body.classList.remove('light-theme');
+   body.classList.add('dark-theme');
+   toggleBtn.textContent = 'Светлая тема';
+ } else {
+   body.classList.remove('dark-theme');
+   body.classList.add('light-theme');
+   toggleBtn.textContent = 'Тёмная тема';
+ }
+});
+</script>
+</body>
+</html>
